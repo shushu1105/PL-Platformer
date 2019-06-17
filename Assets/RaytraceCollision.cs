@@ -29,20 +29,44 @@ public class RaytraceCollision : MonoBehaviour
         float p_height = height * hitBoxPercentage;
 
         //30
-        hit[0] = checkRaycast(new Vector2( width  , p_height) , Mathf.Sqrt((width * width) + (p_height * p_height)));
-        hit[1] = checkRaycast(new Vector2(p_width , -height)  , Mathf.Sqrt((p_width * p_width) + (height * height)));
-        hit[2] = checkRaycast(new Vector2(-width  , -p_height), Mathf.Sqrt((width * width) + (p_height * p_height)));
-        hit[3] = checkRaycast(new Vector2(-p_width,  height)  , Mathf.Sqrt((p_width * p_width) + (height * height)));
+        hit[0] = checkRaycast(new Vector2(width, p_height), (float)System.Math.Sqrt((width * width) + (p_height * p_height)));
+        hit[1] = checkRaycast(new Vector2(p_width, -height), (float)System.Math.Sqrt((p_width * p_width) + (height * height)));
+        hit[2] = checkRaycast(new Vector2(-width, -p_height), (float)System.Math.Sqrt((width * width) + (p_height * p_height)));
+        hit[3] = checkRaycast(new Vector2(-p_width, height), (float)System.Math.Sqrt((p_width * p_width) + (height * height)));
 
         //60
-        hit[4] = checkRaycast(new Vector2(width   , -p_height), Mathf.Sqrt((width * width) + (p_height * p_height)));
-        hit[5] = checkRaycast(new Vector2(-p_width , -height) , Mathf.Sqrt((p_width * p_width) + (height * height)));
-        hit[6] = checkRaycast(new Vector2(-width  , p_height) , Mathf.Sqrt((width * width) + (p_height * p_height)));
-        hit[7] = checkRaycast(new Vector2(p_width, height)    , Mathf.Sqrt((p_width * p_width) + (height * height)));
+        hit[4] = checkRaycast(new Vector2(width, -p_height), (float)System.Math.Sqrt((width * width) + (p_height * p_height)));
+        hit[5] = checkRaycast(new Vector2(-p_width, -height), (float)System.Math.Sqrt((p_width * p_width) + (height * height)));
+        hit[6] = checkRaycast(new Vector2(-width, p_height), (float)System.Math.Sqrt((width * width) + (p_height * p_height)));
+        hit[7] = checkRaycast(new Vector2(p_width, height), (float)System.Math.Sqrt((p_width * p_width) + (height * height)));
+
+        Debug.DrawRay(playerPosition, new Vector2(width, p_height));
+        Debug.DrawRay(playerPosition, new Vector2(p_width, -height));
+        Debug.DrawRay(playerPosition, new Vector2(-width, -p_height));
+        Debug.DrawRay(playerPosition, new Vector2(-p_width, height));
+
+        Debug.DrawRay(playerPosition, new Vector2(width, -p_height));
+        Debug.DrawRay(playerPosition, new Vector2(-p_width, -height));
+        Debug.DrawRay(playerPosition, new Vector2(-width, p_height));
+        Debug.DrawRay(playerPosition, new Vector2(p_width, height));
+
+        if (hit[0].collider || hit[4].collider)
+        {
+            playerPosition.x -= width - (float)System.Math.Max(hit[0].distance * System.Math.Sin(System.Math.Atan2(width, p_height)), hit[4].distance * System.Math.Sin(System.Math.Atan2(width, p_height)));
+            hitLeft = true;
+        }
+        else { hitLeft = false; }
+
+        if (hit[2].collider || hit[6].collider)
+        {
+            playerPosition.x += width - (float)System.Math.Max(hit[2].distance * System.Math.Sin(System.Math.Atan2(width, p_height)), hit[6].distance * System.Math.Sin(System.Math.Atan2(width, p_height)));
+            hitRight = true;
+        }
+        else { hitRight = false; }
 
         if (hit[1].collider || hit[5].collider)         //down
         {
-            playerPosition.y += height - Mathf.Max(hitBoxPercentage * hit[1].distance, hitBoxPercentage * hit[5].distance);
+            playerPosition.y += height - (float)System.Math.Max(System.Math.Cos(System.Math.Atan2(p_width, height)) * hit[1].distance, System.Math.Cos(System.Math.Atan2(p_width, height)) * hit[5].distance);
             if (velocity > 0)
             {
                 velocity = 0;
@@ -50,20 +74,6 @@ public class RaytraceCollision : MonoBehaviour
             hitFloor = true;
         }
         else { hitFloor = false; }
-
-        if (hit[0].collider || hit[4].collider)
-        {
-            playerPosition.x -= width - Mathf.Max(hit[0].distance * hitBoxPercentage, hit[4].distance * hitBoxPercentage);
-            hitLeft = true;
-        }
-        else { hitLeft = false; }
-
-        if (hit[2].collider || hit[6].collider)
-        {
-            playerPosition.x += width - Mathf.Max(hit[2].distance * hitBoxPercentage, hit[6].distance * hitBoxPercentage);
-            hitRight = true;
-        }
-        else { hitRight = false; }
     }
 
     // Use this for initialization
@@ -110,6 +120,23 @@ public class RaytraceCollision : MonoBehaviour
             {
                 velocity = -0.25f;
             }
+        }
+
+        if (Input.GetKey(KeyCode.PageUp))
+        {
+            width += 0.01f;
+            height -= 0.01f;
+        }
+        if (Input.GetKey(KeyCode.PageDown))
+        {
+            height += 0.01f;
+            width -= 0.01f;
+        }
+
+        if (Input.GetKey(KeyCode.F5))
+        {
+            height = 0.64f;
+            width = 0.64f;
         }
 
         playerPosition.y -= velocity;
