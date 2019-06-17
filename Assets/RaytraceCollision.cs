@@ -210,6 +210,11 @@ public class RaytraceCollision : MonoBehaviour
             width = 0.64f;
         }
 
+        if (width <= 0 || height <= 0)
+        {
+            Debug.Log("death");
+        }
+
         playerPosition.y -= velocity;
         transform.position = playerPosition;
     }
