@@ -34,10 +34,8 @@ public class cameraController : MonoBehaviour
             }
         }
 
-        if (Mathf.Abs(cameraPos.y - playerTransform.position.y) > cameraBorder.y)
-        {
-            cameraPos.y -= raytraceCollision.velocity;
-        }
+        cameraPos.y = raytraceCollision.playerPosition.y;
+
         transform.position = cameraPos;
     }
 }

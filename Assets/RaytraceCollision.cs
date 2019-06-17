@@ -15,7 +15,7 @@ public class RaytraceCollision : MonoBehaviour
     private bool hitRight;
     private bool hitFloor;
     private bool hitCeiling;
-    private Vector2 playerPosition;
+    public Vector2 playerPosition;
     private RaycastHit2D checkRaycast(Vector2 direction, float distance)
     {
         return Physics2D.Raycast(transform.position, direction, distance);
@@ -84,7 +84,7 @@ public class RaytraceCollision : MonoBehaviour
         width = 0.64f;
         height = 0.64f;
         moveSpeed = 0.1f;
-        hitBoxPercentage = 0.8f;
+        hitBoxPercentage = 0.5f;
         playerPosition = transform.position;
     }
 
