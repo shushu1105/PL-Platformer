@@ -23,6 +23,7 @@ public class RaytraceCollision : MonoBehaviour
 
     private void raycastCollision()
     {
+        //test
         RaycastHit2D[] hit = new RaycastHit2D[16];
 
         float p_width = width * hitBoxPercentage;
