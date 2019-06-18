@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\PistonController.cs" />
      <Compile Include="Assets\RaytraceCollision.cs" />
      <Compile Include="Assets\cameraController.cs" />
      <Compile Include="Assets\deformSprite.cs" />
