@@ -11,8 +11,8 @@ public class RaytraceCollision : MonoBehaviour
     public float moveSpeed;
 
     private float hitBoxPercentage;
-    private bool hitLeft;
-    private bool hitRight;
+    private bool HitRight;
+    private bool HitLeft;
     private bool hitFloor;
     private bool hitCeiling;
     public Vector2 playerPosition;
@@ -23,7 +23,6 @@ public class RaytraceCollision : MonoBehaviour
 
     private void raycastCollision()
     {
-        //test3
         RaycastHit2D[] hit = new RaycastHit2D[16];
 
         float p_width = width * hitBoxPercentage;
@@ -77,27 +76,27 @@ public class RaytraceCollision : MonoBehaviour
 
         if (hit[0].collider || hit[4].collider)
         {
-            playerPosition.x -= width - (float)System.Math.Max(hit[0].distance * System.Math.Sin(System.Math.Atan2(width, p_height)), hit[4].distance * System.Math.Sin(System.Math.Atan2(width, p_height)));
-            hitLeft = true;
+            playerPosition.x -= (width - (float)System.Math.Max(hit[0].distance * System.Math.Sin(System.Math.Atan2(width, p_height)), hit[4].distance * System.Math.Sin(System.Math.Atan2(width, p_height)))) / 2;
+            HitRight = true;
         }
         else if (hit[8].collider || hit[12].collider)
         {
-            playerPosition.x -= width - (float)System.Math.Max(hit[8].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)), hit[12].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)));
+            playerPosition.x -= (width - (float)System.Math.Max(hit[8].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)), hit[12].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)))) / 2;
             //hitLeft = true;
         }
-        else { hitLeft = false; }
+        else { HitRight = false; }
 
         if (hit[2].collider || hit[6].collider)
         {
             playerPosition.x += width - (float)System.Math.Max(hit[2].distance * System.Math.Sin(System.Math.Atan2(width, p_height)), hit[6].distance * System.Math.Sin(System.Math.Atan2(width, p_height)));
-            hitRight = true;
+            HitLeft = true;
         }
         else if (hit[10].collider || hit[14].collider)
         {
             playerPosition.x += width - (float)System.Math.Max(hit[10].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)), hit[14].distance * System.Math.Sin(System.Math.Atan2(width, p_Lheight)));
             //hitRight = true;
         }
-        else { hitRight = false; }
+        else { HitLeft = false; }
 
         if (hit[1].collider || hit[5].collider)         //down
         {
@@ -137,13 +136,13 @@ public class RaytraceCollision : MonoBehaviour
 
         if (hitCeiling && hitFloor)
         {
-            height -= 0.01f;
-            width += 0.01f;
+            height -= 0.0256f;
+            width += 0.0256f;
         }
-        else if (hitLeft && hitRight)
+        else if (HitRight && HitLeft)
         {
-            width -= 0.01f;
-            height += 0.01f;
+            width -= 0.0256f;
+            height += 0.0256f;
         }
     }
 
@@ -154,7 +153,7 @@ public class RaytraceCollision : MonoBehaviour
         gravity = 0.01f;
         width = 0.64f;
         height = 0.64f;
-        moveSpeed = 0.1f;
+        moveSpeed = 0.128f;
         hitBoxPercentage = 0.4f;
         playerPosition = transform.position;
     }
@@ -171,7 +170,7 @@ public class RaytraceCollision : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (!hitRight)
+            if (!HitLeft)
             {
                 playerPosition.x -= moveSpeed;
             }
@@ -179,7 +178,7 @@ public class RaytraceCollision : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (!hitLeft)
+            if (!HitRight)
             {
                 playerPosition.x += moveSpeed;
             }
@@ -189,7 +188,7 @@ public class RaytraceCollision : MonoBehaviour
         {
             if (hitFloor)
             {
-                velocity = -0.25f;
+                velocity = -(0.4f * height);
             }
         }
 
@@ -208,6 +207,20 @@ public class RaytraceCollision : MonoBehaviour
         {
             height = 0.64f;
             width = 0.64f;
+        }
+
+        if (width != 0.64f && height != 0.64f)
+        {
+            if (height > width)
+            {
+                height -= 0.001f;
+                width += 0.001f;
+            }
+            else
+            {
+                height += 0.001f;
+                width -= 0.001f;
+            }
         }
 
         if (width <= 0 || height <= 0)
