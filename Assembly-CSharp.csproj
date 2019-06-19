@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Moving_Platform.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderD.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderL.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderLD.cs" />
@@ -71,7 +70,10 @@
     <Compile Include="Assets\Scripts\Collider\ColliderU.cs" />
     <Compile Include="Assets\Scripts\Collider\Red_Collider.cs" />
     <Compile Include="Assets\Scripts\ColliderF.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\Moving_Platform.cs" />
     <Compile Include="Assets\Scripts\PistonController.cs" />
+    <Compile Include="Assets\Scripts\PlaySFX.cs" />
     <Compile Include="Assets\Scripts\RaytraceCollision.cs" />
     <Compile Include="Assets\Scripts\Teleporter.cs" />
     <Compile Include="Assets\Scripts\cameraController.cs" />

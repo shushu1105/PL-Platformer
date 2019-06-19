@@ -24,7 +24,6 @@ public class Red_Collider : MonoBehaviour
     private ColliderF C2DF;
 
     private RaytraceCollision rc;
-    private float radius;
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,7 +35,6 @@ public class Red_Collider : MonoBehaviour
         C2DF = transform.Find("Collider_F").GetComponent<ColliderF>();
 
         rc = transform.parent.GetComponent<RaytraceCollision>();
-        radius = 0.08f;
 
         collideL = false;
         collideD = false;

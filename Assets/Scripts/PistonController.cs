@@ -25,7 +25,7 @@ public class PistonController : MonoBehaviour
     // Use this for initialization
     void Awake ()
     {
-        pistonMoveSpeed = 0.0128f;
+        pistonMoveSpeed = 0.0064f;
         topPistonTransform = transform.Find("Piston_Top").GetComponent<Transform>();
         bottomPistonTransform = transform.Find("Piston_Bottom").GetComponent<Transform>();
 

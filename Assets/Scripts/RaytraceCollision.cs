@@ -8,9 +8,9 @@ public class RaytraceCollision : MonoBehaviour
     public float moveSpeed;
 
     bool isJump;
-    bool justTeleported;
     Red_Collider redCollider;
     Rigidbody2D rb;
+    PlaySFX playSfx;
 
     Vector3 Teleport;
 
@@ -23,7 +23,7 @@ public class RaytraceCollision : MonoBehaviour
             Teleport = collision.GetComponent<Teleporter>().linkedTeleporter.transform.position;
             Teleport.x -= (rbVel.x / 8);
             Teleport.z = -10.0f;
-            justTeleported = true;
+            collision.GetComponent<PlaySFX>().playSFX = true;
             transform.position = Teleport;
         }
     }
@@ -31,12 +31,11 @@ public class RaytraceCollision : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
 
-        //NOT YET WORKING PROPERLY!!
+        //NOT YET WORKING PROPERLY!! TODO
         if (collision.gameObject.CompareTag("Moving"))
         {
-            Debug.Log("in");
             Vector2 Speed = rb.velocity;
-            Speed.x = collision.gameObject.GetComponent<Moving_Platform>().moveSpeedx/3;
+            Speed.x = collision.gameObject.GetComponent<Moving_Platform>().moveSpeedx;
 
             //Vector2 Speed = new Vector2(collision.GetComponent<Moving_Platform>().moveSpeedx, rb.velocity.y);
             Vector3 newPos = new Vector3(transform.position.x + Speed.x, transform.position.y, -10.0f);
@@ -54,7 +53,7 @@ public class RaytraceCollision : MonoBehaviour
         redCollider = transform.Find("red").GetComponent<Red_Collider>();
         rb = GetComponent<Rigidbody2D>();
         Teleport = new Vector2(0.0f, 0.0f);
-        justTeleported = false;
+        playSfx = GetComponent<PlaySFX>();
     }
 
     // Update is called once per frame
@@ -81,17 +80,18 @@ public class RaytraceCollision : MonoBehaviour
         {
             rbVel.y = 30 * height;
             isJump = true;
+            playSfx.playSFX = true;
         }
 
         if (Input.GetKey(KeyCode.PageUp) || (redCollider.collideU && redCollider.collideD))
         {
-            width += 0.0128f;
-            height -= 0.0128f;
+            width += 0.0064f;
+            height -= 0.0064f;
         }
         if (Input.GetKey(KeyCode.PageDown) || (redCollider.collideL && redCollider.collideR))
         {
-            height += 0.0128f;
-            width -= 0.0128f;
+            height += 0.0064f;
+            width -= 0.0064f;
         }
 
         if (Input.GetKey(KeyCode.F5))
