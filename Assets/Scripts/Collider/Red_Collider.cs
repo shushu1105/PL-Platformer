@@ -23,6 +23,9 @@ public class Red_Collider : MonoBehaviour
     private ColliderLD C2DLD;
     private ColliderRD C2DRD;
     private ColliderRU C2DRU;
+
+    private RaytraceCollision rc;
+    private float radius;
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,6 +38,9 @@ public class Red_Collider : MonoBehaviour
         C2DLD = transform.Find("Collider_LD").GetComponent<ColliderLD>();
         C2DRD = transform.Find("Collider_RD").GetComponent<ColliderRD>();
         C2DRU = transform.Find("Collider_RU").GetComponent<ColliderRU>();
+
+        rc = transform.parent.GetComponent<RaytraceCollision>();
+        radius = 0.08f;
 
         collideL = false;
         collideD = false;
@@ -59,5 +65,19 @@ public class Red_Collider : MonoBehaviour
         collideLD = C2DLD.CollisionLD;
         collideRD = C2DRD.CollisionRD;
         collideRU = C2DRU.CollisionRU;
+
+        if (rc.width > rc.height)
+        {
+            radius = (rc.height / 0.64f) * 0.04f;
+        }
+        else if (rc.height > rc.width)
+        {
+            radius = (rc.width / 0.64f) * 0.04f;
+        }
+
+        C2DLU.GetComponent<CircleCollider2D>().radius = radius;
+        C2DLD.GetComponent<CircleCollider2D>().radius = radius;
+        C2DRU.GetComponent<CircleCollider2D>().radius = radius;
+        C2DRD.GetComponent<CircleCollider2D>().radius = radius;
     }
 }

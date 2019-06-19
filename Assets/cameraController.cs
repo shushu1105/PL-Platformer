@@ -26,15 +26,15 @@ public class cameraController : MonoBehaviour
         {
             if (cameraPos.x > playerTransform.position.x)
             {
-                cameraPos.x -= raytraceCollision.moveSpeed;
+                cameraPos.x -= cameraPos.x - raytraceCollision.transform.position.x;
             }
             if (cameraPos.x < playerTransform.position.x)
             {
-                cameraPos.x += raytraceCollision.moveSpeed;
+                cameraPos.x += cameraPos.x - raytraceCollision.transform.position.x;
             }
         }
 
-        cameraPos.y = raytraceCollision.playerPosition.y;
+        cameraPos = raytraceCollision.transform.position;
 
         transform.position = cameraPos;
     }
