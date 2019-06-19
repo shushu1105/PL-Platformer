@@ -10,6 +10,11 @@ public class RaytraceCollision : MonoBehaviour
     public float velocity;
     public float moveSpeed;
 
+    Red_Collider redCollider;
+    Rigidbody2D rb;
+
+    Vector2 rbVel;
+
     private float hitBoxPercentage;
     private bool HitRight;
     private bool HitLeft;
@@ -156,32 +161,26 @@ public class RaytraceCollision : MonoBehaviour
         moveSpeed = 0.128f;
         hitBoxPercentage = 0.4f;
         playerPosition = transform.position;
+        redCollider = GetComponent<Red_Collider>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        velocity += gravity;
-        if (velocity > terminalV)
-        {
-            velocity = terminalV;
-        }
-        raycastCollision();
-
+        rbVel = rb.velocity;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (!HitLeft)
-            {
-                playerPosition.x -= moveSpeed;
-            }
+            rbVel.x = -moveSpeed;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (!HitRight)
-            {
-                playerPosition.x += moveSpeed;
-            }
+            rbVel.x = moveSpeed;
+        }
+        else
+        {
+            rbVel.x = 0;
         }
 
         if (Input.GetKey(KeyCode.Space))
@@ -230,5 +229,6 @@ public class RaytraceCollision : MonoBehaviour
 
         playerPosition.y -= velocity;
         transform.position = playerPosition;
+        rb.velocity = rbVel;
     }
 }
