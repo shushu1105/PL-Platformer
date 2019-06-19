@@ -14,15 +14,14 @@ public class Red_Collider : MonoBehaviour
     public bool collideRU;
     public bool collideRD;
 
+    public bool collideF;
+
     private ColliderL C2DL;
     private ColliderD C2DD;
     private ColliderR C2DR;
     private ColliderU C2DU;
 
-    private ColliderLU C2DLU;
-    private ColliderLD C2DLD;
-    private ColliderRD C2DRD;
-    private ColliderRU C2DRU;
+    private ColliderF C2DF;
 
     private RaytraceCollision rc;
     private float radius;
@@ -34,10 +33,7 @@ public class Red_Collider : MonoBehaviour
         C2DR = transform.Find("Collider_R").GetComponent<ColliderR>();
         C2DU = transform.Find("Collider_U").GetComponent<ColliderU>();
 
-        C2DLU = transform.Find("Collider_LU").GetComponent<ColliderLU>();
-        C2DLD = transform.Find("Collider_LD").GetComponent<ColliderLD>();
-        C2DRD = transform.Find("Collider_RD").GetComponent<ColliderRD>();
-        C2DRU = transform.Find("Collider_RU").GetComponent<ColliderRU>();
+        C2DF = transform.Find("Collider_F").GetComponent<ColliderF>();
 
         rc = transform.parent.GetComponent<RaytraceCollision>();
         radius = 0.08f;
@@ -51,33 +47,57 @@ public class Red_Collider : MonoBehaviour
         collideLD = false;
         collideRU = false;
         collideRD = false;
+
+        collideF = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector2 fullColliderSize = C2DF.GetComponent<BoxCollider2D>().size;
         collideL = C2DL.CollisionL;
         collideR = C2DR.CollisionR;
         collideU = C2DU.CollisionU;
         collideD = C2DD.CollisionD;
 
-        collideLU = C2DLU.CollisionLU;
-        collideLD = C2DLD.CollisionLD;
-        collideRD = C2DRD.CollisionRD;
-        collideRU = C2DRU.CollisionRU;
-
-        if (rc.width > rc.height)
+        fullColliderSize.x = 0.56f;
+        if(rc.height < 0.16f)
         {
-            radius = (rc.height / 0.64f) * 0.04f;
+            fullColliderSize.y = 0.56f + ((rc.height - 0.64f) * 1.024f);
         }
-        else if (rc.height > rc.width)
+        else if (rc.height < 0.32f)
         {
-            radius = (rc.width / 0.64f) * 0.04f;
+            fullColliderSize.y = 0.56f + ((rc.height - 0.64f) * 0.512f);
+        }
+        else if (rc.height < 0.64f)
+        {
+            fullColliderSize.y = 0.56f + ((rc.height - 0.64f) * 0.256f);
+        }
+        else if (rc.height > 0.64f)
+        {
+            fullColliderSize.y = 0.56f + ((rc.height - 0.64f) * 0.064f);
         }
 
-        C2DLU.GetComponent<CircleCollider2D>().radius = radius;
-        C2DLD.GetComponent<CircleCollider2D>().radius = radius;
-        C2DRU.GetComponent<CircleCollider2D>().radius = radius;
-        C2DRD.GetComponent<CircleCollider2D>().radius = radius;
+        if (rc.width < 0.16f)
+        {
+            fullColliderSize.x = 0.56f + ((rc.width - 0.64f) * 1.024f);
+        }
+        else if (rc.width < 0.32f)
+        {
+            fullColliderSize.x = 0.56f + ((rc.width - 0.64f) * 0.512f);
+        }
+        else if (rc.width < 0.64f)
+        {
+            fullColliderSize.x = 0.56f + ((rc.width - 0.64f) * 0.256f);
+        }
+        else if (rc.width > 0.64f)
+        {
+            fullColliderSize.x = 0.56f + ((rc.width - 0.64f) * 0.064f);
+        }
+
+        C2DF.GetComponent<BoxCollider2D>().size = fullColliderSize;
+
+        //C2DF.GetComponent<BoxCollider2D>().size = new Vector2(rc.width*rc.width, rc.height*rc.height);
+
     }
 }

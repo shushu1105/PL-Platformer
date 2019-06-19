@@ -60,8 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\PistonController.cs" />
-    <Compile Include="Assets\RaytraceCollision.cs" />
+    <Compile Include="Assets\Moving_Platform.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderD.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderL.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderLD.cs" />
@@ -71,8 +70,12 @@
     <Compile Include="Assets\Scripts\Collider\ColliderRU.cs" />
     <Compile Include="Assets\Scripts\Collider\ColliderU.cs" />
     <Compile Include="Assets\Scripts\Collider\Red_Collider.cs" />
-    <Compile Include="Assets\cameraController.cs" />
-    <Compile Include="Assets\deformSprite.cs" />
+    <Compile Include="Assets\Scripts\ColliderF.cs" />
+    <Compile Include="Assets\Scripts\PistonController.cs" />
+    <Compile Include="Assets\Scripts\RaytraceCollision.cs" />
+    <Compile Include="Assets\Scripts\Teleporter.cs" />
+    <Compile Include="Assets\Scripts\cameraController.cs" />
+    <Compile Include="Assets\Scripts\deformSprite.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Unity/Collider Platformer/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -102,6 +105,12 @@
     </Reference>
     <Reference Include="Unity.ugui.Editor">
       <HintPath>D:/Unity/Collider Platformer/Library/ScriptAssemblies/Unity.ugui.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>D:/Unity/Collider Platformer/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>D:/Unity/Collider Platformer/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0a5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
