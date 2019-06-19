@@ -41,7 +41,7 @@ public class PistonController : MonoBehaviour
 
         if (topPistonTransform.rotation.z == 0)
         {
-            if (Input.GetKey(KeyCode.F1))
+            if (Input.GetKey(KeyCode.DownArrow))
             {
                 topPistonNew.y -= pistonMoveSpeed;
                 bottomPistonNew.y += pistonMoveSpeed;
@@ -60,7 +60,7 @@ public class PistonController : MonoBehaviour
         }
         else
         {
-            if (Input.GetKey(KeyCode.F1))
+            if (Input.GetKey(KeyCode.DownArrow))
             {
                 topPistonNew.x += pistonMoveSpeed;
                 bottomPistonNew.x -= pistonMoveSpeed;

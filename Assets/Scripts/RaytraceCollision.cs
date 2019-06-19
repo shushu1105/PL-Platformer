@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class RaytraceCollision : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class RaytraceCollision : MonoBehaviour
             Teleport.z = -10.0f;
             collision.GetComponent<PlaySFX>().playSFX = true;
             transform.position = Teleport;
+        }
+
+        if (collision.gameObject.CompareTag("Star"))
+        {
+            collision.GetComponentInParent<PlaySFX>().playSFX = true;
+            Destroy(collision.gameObject);
         }
     }
 
@@ -76,7 +83,7 @@ public class RaytraceCollision : MonoBehaviour
             rbVel.x = 0;
         }
 
-        if (Input.GetKey(KeyCode.Space) && !isJump)
+        if (Input.GetKey(KeyCode.UpArrow) && !isJump)
         {
             rbVel.y = 30 * height;
             isJump = true;
@@ -85,13 +92,13 @@ public class RaytraceCollision : MonoBehaviour
 
         if (Input.GetKey(KeyCode.PageUp) || (redCollider.collideU && redCollider.collideD))
         {
-            width += 0.0064f;
-            height -= 0.0064f;
+            width += 0.0128f;
+            height -= 0.0128f;
         }
         if (Input.GetKey(KeyCode.PageDown) || (redCollider.collideL && redCollider.collideR))
         {
-            height += 0.0064f;
-            width -= 0.0064f;
+            height += 0.0128f;
+            width -= 0.0128f;
         }
 
         if (Input.GetKey(KeyCode.F5))
@@ -114,9 +121,9 @@ public class RaytraceCollision : MonoBehaviour
             }
         }
 
-        if (width <= 0.128f || height <= 0.128f)
+        if (width <= 0.128f || height <= 0.128f || Input.GetKeyDown(KeyCode.R))
         {
-            Debug.LogError("death");
+            SceneManager.LoadScene("Level_Tutorial");
         }
         rb.velocity = rbVel;
     }
