@@ -24,11 +24,37 @@ public class Teleporter : MonoBehaviour
         outbound
     }
 
+    public enum TeleporterExit
+    {
+        Null,
+        Left,
+        Right
+    }
     public TeleporterNumber linkTeleporter;
     public TeleporterType type;
+    public TeleporterExit exitFrom;
+    public bool teleportPlayer;
+
+    Vector3 teleportPos;
 
     GameObject[] allTeleporters;
     public Teleporter linkedTeleporter;
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            teleportPlayer = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            teleportPlayer = false;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +67,6 @@ public class Teleporter : MonoBehaviour
             {
                 if (linkedTeleporter.type != type)
                 {
-                    Debug.Log(linkTeleporter);
                     break;
                 }
             }
@@ -56,6 +81,20 @@ public class Teleporter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.UpArrow) && teleportPlayer)
+        {
+            teleportPos = linkedTeleporter.transform.position;
+            if (exitFrom == TeleporterExit.Left)
+            {
+                teleportPos.x -= 1.28f;
+            }
+            else if (exitFrom == TeleporterExit.Right)
+            {
+                teleportPos.x += 1.28f;
+            }
+            teleportPos.z = -10.0f;
+            GetComponent<PlaySFX>().playSFX = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position = teleportPos;
+        }
     }
 }

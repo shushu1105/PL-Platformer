@@ -7,8 +7,10 @@ public class RaytraceCollision : MonoBehaviour
     public float width;
     public float height;
     public float moveSpeed;
+    public float position;
 
     bool isJump;
+    bool blockJump;
     Red_Collider redCollider;
     Rigidbody2D rb;
     PlaySFX playSfx;
@@ -17,17 +19,18 @@ public class RaytraceCollision : MonoBehaviour
 
     Vector2 rbVel;
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        blockJump = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        blockJump = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Teleporter"))
-        {
-            Teleport = collision.GetComponent<Teleporter>().linkedTeleporter.transform.position;
-            Teleport.x -= (rbVel.x / 8);
-            Teleport.z = -10.0f;
-            collision.GetComponent<PlaySFX>().playSFX = true;
-            transform.position = Teleport;
-        }
-
         if (collision.gameObject.CompareTag("Star"))
         {
             collision.GetComponentInParent<PlaySFX>().playSFX = true;
@@ -37,7 +40,6 @@ public class RaytraceCollision : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-
         //NOT YET WORKING PROPERLY!! TODO
         if (collision.gameObject.CompareTag("Moving"))
         {
@@ -55,12 +57,13 @@ public class RaytraceCollision : MonoBehaviour
     {
         width = 0.64f;
         height = 0.64f;
-        moveSpeed = 16.0f;
+        moveSpeed = 8.0f;
         isJump = false;
         redCollider = transform.Find("red").GetComponent<Red_Collider>();
         rb = GetComponent<Rigidbody2D>();
         Teleport = new Vector2(0.0f, 0.0f);
         playSfx = GetComponent<PlaySFX>();
+        blockJump = false;
     }
 
     // Update is called once per frame
@@ -80,10 +83,21 @@ public class RaytraceCollision : MonoBehaviour
         }
         else
         {
-            rbVel.x = 0;
+            if (rb.velocity.x > 0.1f)
+            {
+                rbVel.x -= 0.2f;
+            }
+            else if (rb.velocity.x < -0.1f)
+            {
+                rbVel.x += 0.2f;
+            }
+            else
+            {
+                rbVel.x = 0;
+            }
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && !isJump)
+        if (Input.GetKey(KeyCode.UpArrow) && !isJump && !blockJump)
         {
             rbVel.y = 30 * height;
             isJump = true;
